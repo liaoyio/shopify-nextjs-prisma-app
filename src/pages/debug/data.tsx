@@ -6,31 +6,31 @@ import {
   Text,
   InlineStack,
   Button,
-} from "@shopify/polaris";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+} from '@shopify/polaris'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 const useDataFetcher = (
   initialState: string,
   url: string,
   options?: RequestInit,
 ) => {
-  const [data, setData] = useState(initialState);
+  const [data, setData] = useState(initialState)
 
   const fetchData = async () => {
-    setData("loading...");
-    const result = await (await fetch(url, options)).json();
-    setData(result.text);
-  };
+    setData('loading...')
+    const result = await (await fetch(url, options)).json()
+    setData(result.text)
+  }
 
-  return [data, fetchData] as const;
-};
+  return [data, fetchData] as const
+}
 
-interface DataCardProps {
-  method: string;
-  url: string;
-  data: string;
-  onRefetch: () => void;
+type DataCardProps = {
+  method: string
+  url: string
+  data: string
+  onRefetch: () => void
 }
 
 const DataCard = ({ method, url, data, onRefetch }: DataCardProps) => (
@@ -38,7 +38,12 @@ const DataCard = ({ method, url, data, onRefetch }: DataCardProps) => (
     <Card>
       <BlockStack gap="200">
         <Text as="p">
-          {method} <code>{url}</code>: {data}
+          {method}
+          {' '}
+          <code>{url}</code>
+          :
+          {' '}
+          {data}
         </Text>
         <InlineStack align="end">
           <Button variant="primary" onClick={onRefetch}>
@@ -48,43 +53,42 @@ const DataCard = ({ method, url, data, onRefetch }: DataCardProps) => (
       </BlockStack>
     </Card>
   </Layout.Section>
-);
+)
 
 const GetData = () => {
-  const router = useRouter();
+  const router = useRouter()
 
   const postOptions: RequestInit = {
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
-    method: "POST",
-    body: JSON.stringify({ text: "Body of POST request" }),
-  };
+    method: 'POST',
+    body: JSON.stringify({ text: 'Body of POST request' }),
+  }
 
-  const [responseData, fetchContent] = useDataFetcher("", "/api/apps/debug");
+  const [responseData, fetchContent] = useDataFetcher('', '/api/apps/debug')
   const [responseDataPost, fetchContentPost] = useDataFetcher(
-    "",
-    "/api/apps/debug",
+    '',
+    '/api/apps/debug',
     postOptions,
-  );
+  )
   const [responseDataGQL, fetchContentGQL] = useDataFetcher(
-    "",
-    "/api/apps/debug/gql",
-  );
+    '',
+    '/api/apps/debug/gql',
+  )
 
   useEffect(() => {
-    fetchContent();
-    fetchContentPost();
-    fetchContentGQL();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    fetchContent()
+    fetchContentPost()
+    fetchContentGQL()
+  }, [])
 
   return (
     <Page
       title="Data Fetching"
       subtitle="Make an authenticated GET, POST and GraphQL request to the apps backend"
-      backAction={{ onAction: () => router.push("/debug") }}
+      backAction={{ onAction: () => router.push('/debug') }}
     >
       <Layout>
         <DataCard
@@ -107,7 +111,7 @@ const GetData = () => {
         />
       </Layout>
     </Page>
-  );
-};
+  )
+}
 
-export default GetData;
+export default GetData

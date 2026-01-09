@@ -1,5 +1,5 @@
-import Cryptr from "cryptr";
+import Cryptr from 'cryptr'
 
-const cryption = new Cryptr(process.env.ENCRYPTION_STRING || "");
+const cryption = new Cryptr(process.env.ENCRYPTION_STRING || '')
 
-export default cryption;
+export default cryption

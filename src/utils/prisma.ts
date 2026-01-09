@@ -1,14 +1,14 @@
-import "dotenv/config";
-import { PrismaClient } from "~/prisma/client/client";
-import type { PrismaClient as PrismaClientType } from "~/prisma/client/client";
+import 'dotenv/config'
+import { PrismaClient } from '~/prisma/client/client'
+import type { PrismaClient as PrismaClientType } from '~/prisma/client/client'
 
-const connectionString = process.env.DATABASE_URL;
+// PostgreSQL
+import { PrismaPg } from '@prisma/adapter-pg'
 
-//PostgreSQL
-import { PrismaPg } from "@prisma/adapter-pg";
-const adapter = new PrismaPg({ connectionString: connectionString || "" });
+const connectionString = process.env.DATABASE_URL
+const adapter = new PrismaPg({ connectionString: connectionString || '' })
 
-//MySQL
+// MySQL
 /*
  * 1. 注释掉上面的 PostgreSQL 设置
  * 2. 将 `/prisma/schema.prisma` 中的 provider 更改为 provider = "mysql"
@@ -35,6 +35,6 @@ const adapter = new PrismaPg({ connectionString: connectionString || "" });
 //   connectionLimit: 5, //adjust this if necessary
 // });
 
-const prisma = new PrismaClient({ adapter }) as PrismaClientType;
+const prisma = new PrismaClient({ adapter }) as PrismaClientType
 
-export default prisma;
+export default prisma

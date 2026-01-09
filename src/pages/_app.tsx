@@ -1,10 +1,13 @@
-import AppBridgeProvider from "@/components/providers/app-bridge";
-import { AppProvider as PolarisProvider } from "@shopify/polaris";
-import "@shopify/polaris/build/esm/styles.css";
-import translations from "@shopify/polaris/locales/en.json";
-import Link from "next/link";
-import type { AppProps } from "next/app";
-import { NavMenu } from "@shopify/app-bridge-react";
+import AppBridgeProvider from '@/components/providers/app-bridge'
+import { AppProvider as PolarisProvider } from '@shopify/polaris'
+import '@/css/global.css'
+import '@/css/tailwind.css'
+import '@shopify/polaris/build/esm/styles.css'
+
+import translations from '@shopify/polaris/locales/en.json'
+import Link from 'next/link'
+import type { AppProps } from 'next/app'
+import { NavMenu } from '@shopify/app-bridge-react'
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -18,7 +21,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         </AppBridgeProvider>
       </PolarisProvider>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App

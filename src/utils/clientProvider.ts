@@ -1,6 +1,6 @@
-import sessionHandler from "./sessionHandler";
-import shopify from "./shopify";
-import type { NextApiRequest, NextApiResponse } from "next";
+import sessionHandler from './sessionHandler'
+import shopify from './shopify'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 /**
  * 获取与店铺关联的离线会话。
@@ -8,10 +8,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
  * @param shop - 店铺域名。
  */
 const fetchOfflineSession = async (shop: string) => {
-  const sessionID = shopify.session.getOfflineId(shop);
-  const session = await sessionHandler.loadSession(sessionID);
-  return session;
-};
+  const sessionID = shopify.session.getOfflineId(shop)
+  const session = await sessionHandler.loadSession(sessionID)
+  return session
+}
 
 /**
  * 提供创建离线访问客户端的方法。
@@ -25,12 +25,12 @@ const offline = {
    * @param shop - 店铺域名
    */
   graphqlClient: async ({ shop }: { shop: string }) => {
-    const session = await fetchOfflineSession(shop);
+    const session = await fetchOfflineSession(shop)
     if (!session) {
-      throw new Error("加载离线会话失败");
+      throw new Error('加载离线会话失败')
     }
-    const client = new shopify.clients.Graphql({ session });
-    return { client, shop, session };
+    const client = new shopify.clients.Graphql({ session })
+    return { client, shop, session }
   },
   /**
    * 创建用于离线访问的 Shopify Storefront 客户端。
@@ -39,14 +39,14 @@ const offline = {
    * @param shop - 店铺域名
    */
   storefrontClient: async ({ shop }: { shop: string }) => {
-    const session = await fetchOfflineSession(shop);
+    const session = await fetchOfflineSession(shop)
     if (!session) {
-      throw new Error("加载离线会话失败");
+      throw new Error('加载离线会话失败')
     }
-    const client = new shopify.clients.Storefront({ session });
-    return { client, shop, session };
+    const client = new shopify.clients.Storefront({ session })
+    return { client, shop, session }
   },
-};
+}
 
 /**
  * 获取与请求关联的在线会话。
@@ -59,17 +59,17 @@ const fetchOnlineSession = async ({
   req,
   res,
 }: {
-  req: NextApiRequest;
-  res: NextApiResponse;
+  req: NextApiRequest
+  res: NextApiResponse
 }) => {
   const sessionID = await shopify.session.getCurrentId({
     isOnline: true,
     rawRequest: req,
     rawResponse: res,
-  });
-  const session = await sessionHandler.loadSession(sessionID as string);
-  return session;
-};
+  })
+  const session = await sessionHandler.loadSession(sessionID as string)
+  return session
+}
 
 /**
  * 提供创建在线访问客户端的方法。
@@ -87,16 +87,16 @@ const online = {
     req,
     res,
   }: {
-    req: NextApiRequest;
-    res: NextApiResponse;
+    req: NextApiRequest
+    res: NextApiResponse
   }) => {
-    const session = await fetchOnlineSession({ req, res });
+    const session = await fetchOnlineSession({ req, res })
     if (!session) {
-      throw new Error("加载在线会话失败");
+      throw new Error('加载在线会话失败')
     }
-    const client = new shopify.clients.Graphql({ session });
-    const { shop } = session;
-    return { client, shop, session };
+    const client = new shopify.clients.Graphql({ session })
+    const { shop } = session
+    return { client, shop, session }
   },
   /**
    * 创建用于在线访问的 Shopify Storefront 客户端。
@@ -109,18 +109,18 @@ const online = {
     req,
     res,
   }: {
-    req: NextApiRequest;
-    res: NextApiResponse;
+    req: NextApiRequest
+    res: NextApiResponse
   }) => {
-    const session = await fetchOnlineSession({ req, res });
+    const session = await fetchOnlineSession({ req, res })
     if (!session) {
-      throw new Error("加载在线会话失败");
+      throw new Error('加载在线会话失败')
     }
-    const client = new shopify.clients.Storefront({ session });
-    const { shop } = session;
-    return { client, shop, session };
+    const client = new shopify.clients.Storefront({ session })
+    const { shop } = session
+    return { client, shop, session }
   },
-};
+}
 
 /**
  * 为在线和离线访问提供 GraphQL 客户端提供者。
@@ -129,6 +129,6 @@ const online = {
 const clientProvider = {
   offline,
   online,
-};
+}
 
-export default clientProvider;
+export default clientProvider

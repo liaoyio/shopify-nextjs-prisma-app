@@ -1,19 +1,18 @@
-import withMiddleware from "@/utils/middleware/withMiddleware";
-import prisma from "@/utils/prisma";
-import type { NextApiRequest, NextApiResponse } from "next";
+import withMiddleware from '@/utils/middleware/withMiddleware'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
-interface WebVitals {
-  INP: number;
-  FID: number;
-  CLS: number;
-  LCP: number;
-  FCP: number;
-  TTFB: number;
+type WebVitals = {
+  INP: number
+  FID: number
+  CLS: number
+  LCP: number
+  FCP: number
+  TTFB: number
 }
 
-interface Metric {
-  name: keyof WebVitals;
-  value: string;
+type Metric = {
+  name: keyof WebVitals
+  value: string
 }
 
 /**
@@ -21,18 +20,18 @@ interface Metric {
  * @param res - HTTP 响应对象。
  */
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== "POST") {
-    //GET, POST, PUT, DELETE
-    console.log("仅在请求方法为 GET 时提供此服务");
-    return res.status(405).send({ error: true });
+  if (req.method !== 'POST') {
+    // GET, POST, PUT, DELETE
+    console.log('仅在请求方法为 GET 时提供此服务')
+    return res.status(405).send({ error: true })
   }
 
   try {
     if (!req.user_session) {
-      return res.status(401).send({ error: "未授权" });
+      return res.status(401).send({ error: '未授权' })
     }
 
-    let webVitals: WebVitals = {
+    const webVitals: WebVitals = {
       INP: 0.0,
       FID: 0.0,
       CLS: 0.0,
@@ -42,9 +41,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     };
     (req.body?.metrics as Metric[])?.forEach((metr) => {
       if (metr?.name && metr?.value) {
-        webVitals[metr.name] = Number(parseFloat(metr.value).toFixed(2));
+        webVitals[metr.name] = Number(Number.parseFloat(metr.value).toFixed(2))
       }
-    });
+    })
 
     // 注意: 您需要在 Prisma schema 中添加 metrics 模型才能使用此端点
     // 示例 schema:
@@ -76,11 +75,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     //   },
     // });
 
-    return res.status(200).send({ text: "成功！" });
+    return res.status(200).send({ text: '成功！' })
   } catch (e) {
-    console.error("---> /api/apps/ 发生错误", e);
-    return res.status(403).send({ error: true });
+    console.error('---> /api/apps/ 发生错误', e)
+    return res.status(403).send({ error: true })
   }
-};
+}
 
-export default withMiddleware("verifyRequest")(handler);
+export default withMiddleware('verifyRequest')(handler)

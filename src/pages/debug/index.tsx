@@ -6,18 +6,18 @@ import {
   Page,
   Text,
   BlockStack,
-} from "@shopify/polaris";
-import { useRouter } from "next/router";
+} from '@shopify/polaris'
+import { useRouter } from 'next/router'
 
 const DebugIndex = () => {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <>
       <Page
         title="Debug Cards"
         subtitle="Interact and explore the current installation"
-        backAction={{ onAction: () => router.push("/") }}
+        backAction={{ onAction: () => router.push('/') }}
       >
         <Layout>
           <Layout.Section variant="oneHalf">
@@ -34,7 +34,7 @@ const DebugIndex = () => {
                   <Button
                     variant="primary"
                     onClick={() => {
-                      router.push("/debug/scopes");
+                      router.push('/debug/scopes')
                     }}
                   >
                     Explore
@@ -56,7 +56,7 @@ const DebugIndex = () => {
                   <Button
                     variant="primary"
                     onClick={() => {
-                      router.push("/debug/data");
+                      router.push('/debug/data')
                     }}
                   >
                     Explore
@@ -78,7 +78,7 @@ const DebugIndex = () => {
                   <Button
                     variant="primary"
                     onClick={() => {
-                      router.push("/debug/billing");
+                      router.push('/debug/billing')
                     }}
                   >
                     Cha-Ching
@@ -100,7 +100,7 @@ const DebugIndex = () => {
                   <Button
                     variant="primary"
                     onClick={() => {
-                      router.push("/debug/resourcePicker");
+                      router.push('/debug/resourcePicker')
                     }}
                   >
                     Explore
@@ -112,7 +112,7 @@ const DebugIndex = () => {
         </Layout>
       </Page>
     </>
-  );
-};
+  )
+}
 
-export default DebugIndex;
+export default DebugIndex

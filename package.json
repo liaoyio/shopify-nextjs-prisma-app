@@ -1,7 +1,7 @@
 {
   "name": "shopify-nextjs-prisma-app",
-  "version": "2025.12.29",
   "type": "module",
+  "version": "2025.12.29",
   "author": {
     "name": "liaoyio",
     "url": "https://liaoyi.im/"
@@ -36,39 +36,74 @@
     "prisma:push": "npx prisma db push",
     "prisma:pull": "npx prisma db pull",
     "-----> Reserved Scripts <-----": "",
-    "prepare": "npx prisma generate"
+    "prepare": "npx prisma generate",
+    "-----> Clean <-----": "",
+    "clean": "rimraf .next out coverage",
+    "-----> Lint <-----": "",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "lint-hooks": "npx simple-git-hooks",
+    "-----> Codegen <-----": "",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.2.0",
-    "@prisma/client": "^7.2.0",
     "@shopify/polaris": "^13.9.5",
     "@shopify/shopify-api": "^12.2.0",
-    "cryptr": "^6.4.0",
-    "dotenv": "^17.2.3",
     "next": "16.1.1",
     "next-api-middleware": "^3.0.0",
-    "pg": "^8.16.3",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "tailwindcss": "^3.4.18"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^6.1.0",
+    "@eslint-react/eslint-plugin": "^2.2.3",
     "@iarna/toml": "^2.2.5",
+    "@monaco-editor/react": "^4.7.0",
+    "@next/eslint-plugin-next": "^16.1.1",
+    "@prisma/adapter-pg": "^7.2.0",
+    "@prisma/client": "^7.2.0",
     "@shopify/app-bridge-react": "^4.2.8",
     "@shopify/app-bridge-types": "^0.5.3",
     "@shopify/cli-kit": "^3.88.1",
     "@shopify/polaris-icons": "^9.3.1",
     "@shopify/polaris-types": "^1.0.1",
     "@t3-oss/env-nextjs": "^0.13.10",
+    "@tanstack/react-query": "^5.90.16",
     "@types/node": "^22.18.8",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.22",
     "babel-plugin-react-compiler": "^1.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cryptr": "^6.4.0",
+    "dotenv": "^17.2.3",
+    "eslint": "^9.39.1",
+    "eslint-plugin-format": "^1.0.2",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "eslint-plugin-tailwindcss": "^3.18.2",
+    "lint-staged": "^16.2.6",
+    "lucide-react": "^0.552.0",
     "ngrok": "^5.0.0-beta.2",
     "npm-check-updates": "^19.2.0",
+    "pg": "^8.16.3",
+    "postcss": "^8.5.6",
     "prettier": "^3.7.4",
     "prisma": "^7.2.0",
+    "rimraf": "^6.1.2",
+    "sass": "^1.94.2",
+    "simple-git-hooks": "^2.13.1",
+    "tailwind-merge": "^3.3.1",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0",
     "zod": "^4.3.5"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
   }
 }

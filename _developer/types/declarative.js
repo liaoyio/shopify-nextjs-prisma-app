@@ -20,7 +20,7 @@
  */
 
 /**
- * @typedef {Object} MetafieldAccess
+ * @typedef {object} MetafieldAccess
  * @property {MetafieldAccessAdmin} admin
  * @property {MetafieldAccessStorefront} storefront
  * @property {MetafieldAccessCustomerAccount} customer_account
@@ -29,7 +29,7 @@
 /**
  * Capabilities supported in TOML-based declarative metafields.
  *
- * @typedef {Object} MetafieldCapabilities
+ * @typedef {object} MetafieldCapabilities
  * @property {boolean} admin_filterable
  * @property {boolean} unique_values
  */
@@ -37,7 +37,7 @@
 /**
  * Validations supported in TOML-based declarative metafields.
  *
- * @typedef {Object} MetafieldValidations
+ * @typedef {object} MetafieldValidations
  * @property {string} name
  * @property {string} value
  */
@@ -45,7 +45,7 @@
 /**
  * A single app-owned metafield definition (TOML/declarative).
  *
- * @typedef {Object} DeclarativeMetafieldDefinition
+ * @typedef {object} DeclarativeMetafieldDefinition
  * @property {MetafieldOwnerType} owner_type
  * @property {string} key
  * @property {string} namespace
@@ -57,4 +57,4 @@
  * @property {MetafieldValidations[]} validations
  */
 
-export {};
+export {}

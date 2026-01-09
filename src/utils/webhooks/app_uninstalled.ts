@@ -1,7 +1,7 @@
 // 要创建新的 webhook，请在 /utils/webhooks/ 中创建一个新的 `.ts` 文件，并使用项目代码片段
 // `createwebhook` 来生成 webhook 模板
 
-import prisma from "../prisma";
+import prisma from '../prisma'
 
 const appUninstallHandler = async (
   topic: string,
@@ -11,17 +11,17 @@ const appUninstallHandler = async (
   apiVersion: string,
 ): Promise<void> => {
   try {
-    const webhookBody = JSON.parse(webhookRequestBody);
+    const webhookBody = JSON.parse(webhookRequestBody)
 
-    await prisma.session.deleteMany({ where: { shop } });
+    await prisma.session.deleteMany({ where: { shop } })
     await prisma.stores.upsert({
-      where: { shop: shop },
+      where: { shop },
       update: { isActive: false },
-      create: { shop: shop, isActive: false },
-    });
+      create: { shop, isActive: false },
+    })
   } catch (e) {
-    console.error(e);
+    console.error(e)
   }
-};
+}
 
-export default appUninstallHandler;
+export default appUninstallHandler

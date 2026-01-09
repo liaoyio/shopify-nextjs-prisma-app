@@ -1,4 +1,4 @@
-import isInitialLoad from "@/utils/middleware/isInitialLoad";
+import isInitialLoad from '@/utils/middleware/isInitialLoad'
 import {
   BlockStack,
   Button,
@@ -7,24 +7,30 @@ import {
   Layout,
   Page,
   Text,
-} from "@shopify/polaris";
-import { ExternalIcon } from "@shopify/polaris-icons";
-import { useRouter } from "next/router";
-import type { GetServerSideProps } from "next";
+} from '@shopify/polaris'
+import { ExternalIcon } from '@shopify/polaris-icons'
+import { useRouter } from 'next/router'
+import type { GetServerSideProps } from 'next'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  //DO NOT REMOVE THIS.
-  return await isInitialLoad(context);
-};
+  // DO NOT REMOVE THIS.
+  return await isInitialLoad(context)
+}
 
 const HomePage = () => {
-  const router = useRouter();
-  const isDev = process.env.NODE_ENV === "development";
+  const router = useRouter()
+  const isDev = process.env.NODE_ENV === 'development'
 
   return (
     <>
       <Page title="Home">
         <Layout>
+          <Layout.Section variant="fullWidth">
+            <div className="w-full rounded-xl border border-slate-200 bg-slate-100 px-6 py-4 font-bold">
+              🪄 使用 Tailwind CSS 的示例
+            </div>
+          </Layout.Section>
+
           {isDev ? (
             <Layout.Section variant="fullWidth">
               <Card>
@@ -41,7 +47,7 @@ const HomePage = () => {
                     <Button
                       variant="primary"
                       onClick={() => {
-                        router.push("/debug");
+                        router.push('/debug')
                       }}
                     >
                       Debug Cards
@@ -67,9 +73,9 @@ const HomePage = () => {
                     icon={<ExternalIcon />}
                     onClick={() => {
                       open(
-                        "https://shopify.dev/docs/api/app-bridge-library/reference",
-                        "_blank",
-                      );
+                        'https://shopify.dev/docs/api/app-bridge-library/reference',
+                        '_blank',
+                      )
                     }}
                   >
                     Explore
@@ -94,9 +100,9 @@ const HomePage = () => {
                     icon={<ExternalIcon />}
                     onClick={() => {
                       open(
-                        "https://github.com/kinngh/shopify-nextjs-prisma-app/issues?q=is%3Aissue",
-                        "_blank",
-                      );
+                        'https://github.com/kinngh/shopify-nextjs-prisma-app/issues?q=is%3Aissue',
+                        '_blank',
+                      )
                     }}
                   >
                     Issues
@@ -107,9 +113,9 @@ const HomePage = () => {
                     icon={<ExternalIcon />}
                     onClick={() => {
                       open(
-                        "https://github.com/kinngh/shopify-nextjs-prisma-app",
-                        "_blank",
-                      );
+                        'https://github.com/kinngh/shopify-nextjs-prisma-app',
+                        '_blank',
+                      )
                     }}
                   >
                     Star
@@ -135,9 +141,9 @@ const HomePage = () => {
                     icon={<ExternalIcon />}
                     onClick={() => {
                       open(
-                        "https://kinngh.gumroad.com/l/how-to-make-shopify-apps?utm_source=boilerplate&utm_medium=nextjs",
-                        "_blank",
-                      );
+                        'https://kinngh.gumroad.com/l/how-to-make-shopify-apps?utm_source=boilerplate&utm_medium=nextjs',
+                        '_blank',
+                      )
                     }}
                   >
                     Buy
@@ -150,7 +156,7 @@ const HomePage = () => {
         </Layout>
       </Page>
     </>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage

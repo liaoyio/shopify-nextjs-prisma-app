@@ -1,7 +1,7 @@
-import "./env";
+import './env'
 
-import "@shopify/shopify-api/adapters/node";
-import type { NextConfig } from "next";
+import '@shopify/shopify-api/adapters/node'
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   /** 禁用 turbopack */
@@ -13,9 +13,9 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   /** 转译包 */
   transpilePackages: [
-    "antd",
-    "@ant-design/cssinjs",
-    "@ant-design/pro-components",
+    'antd',
+    '@ant-design/cssinjs',
+    '@ant-design/pro-components',
   ],
   env: {
     CONFIG_SHOPIFY_API_KEY: process.env.SHOPIFY_API_KEY,
@@ -25,8 +25,8 @@ const nextConfig: NextConfig = {
     ),
   },
   allowedDevOrigins: [
-    process.env.SHOPIFY_APP_URL?.toString().replace("https://", "") || "",
+    process.env.SHOPIFY_APP_URL?.toString().replace('https://', '') || '',
   ],
-};
+}
 
-export default nextConfig;
+export default nextConfig

@@ -1,10 +1,10 @@
-import shopify from "@/utils/shopify";
-import validateJWT from "../validateJWT";
-import type { NextApiRequest, NextApiResponse } from "next";
+import shopify from '@/utils/shopify'
+import validateJWT from '../validateJWT'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
-declare module "next" {
-  interface NextApiRequest {
-    user_shop?: string;
+declare module 'next' {
+  type NextApiRequest = {
+    user_shop?: string
   }
 }
 
@@ -21,36 +21,35 @@ const verifyCheckout = async (
   res: NextApiResponse,
   next: () => void | Promise<void>,
 ): Promise<void> => {
-  //在收到 GET/POST 请求之前，您首先会收到一个 OPTIONS 请求
-  if (req.method === "OPTIONS") {
-    res.status(200).end();
-    return;
+  // 在收到 GET/POST 请求之前，您首先会收到一个 OPTIONS 请求
+  if (req.method === 'OPTIONS') {
+    res.status(200).end()
+    return
   }
 
   try {
-    const authHeader = req.headers["authorization"];
+    const authHeader = req.headers.authorization
     if (!authHeader) {
-      throw Error("未找到授权头。");
+      throw new Error('未找到授权头。')
     }
 
-    const payload = validateJWT(authHeader.split(" ")[1]);
+    const payload = validateJWT(authHeader.split(' ')[1])
 
-    let shop = shopify.utils.sanitizeShop(
-      (payload.dest as string).replace("https://", ""),
-    );
+    const shop = shopify.utils.sanitizeShop(
+      (payload.dest as string).replace('https://', ''),
+    )
     if (!shop) {
-      throw Error("未找到店铺，不是有效请求");
+      throw new Error('未找到店铺，不是有效请求')
     }
 
-    req.user_shop = shop;
+    req.user_shop = shop
 
-    await next();
-    return;
+    await next()
   } catch (e) {
-    const error = e as Error;
-    console.error(`---> verifyCheckout 中间件发生错误: ${error.message}`);
-    return res.status(401).send({ error: "未授权的调用" });
+    const error = e as Error
+    console.error(`---> verifyCheckout 中间件发生错误: ${error.message}`)
+    return res.status(401).send({ error: '未授权的调用' })
   }
-};
+}
 
-export default verifyCheckout;
+export default verifyCheckout

@@ -1,9 +1,9 @@
-import { RequestedTokenType } from "@shopify/shopify-api";
-import sessionHandler from "../sessionHandler";
-import shopify from "../shopify";
-import freshInstall from "../freshInstall";
-import prisma from "../prisma";
-import type { GetServerSidePropsContext } from "next";
+import { RequestedTokenType } from '@shopify/shopify-api'
+import sessionHandler from '../sessionHandler'
+import shopify from '../shopify'
+import freshInstall from '../freshInstall'
+import prisma from '../prisma'
+import type { GetServerSidePropsContext } from 'next'
 
 /**
  * @async
@@ -14,36 +14,36 @@ const isInitialLoad = async (
   context: GetServerSidePropsContext,
 ): Promise<{ props: { [key: string]: any } }> => {
   try {
-    const shop = context.query.shop as string | undefined;
-    const idToken = context.query.id_token as string | undefined;
+    const shop = context.query.shop as string | undefined
+    const idToken = context.query.id_token as string | undefined
 
-    //初始加载
+    // 初始加载
     if (idToken && shop) {
       const { session: offlineSession } = await shopify.auth.tokenExchange({
         sessionToken: idToken,
         shop,
         requestedTokenType: RequestedTokenType.OfflineAccessToken,
-      });
+      })
 
       const { session: onlineSession } = await shopify.auth.tokenExchange({
         sessionToken: idToken,
         shop,
         requestedTokenType: RequestedTokenType.OnlineAccessToken,
-      });
+      })
 
-      await sessionHandler.storeSession(offlineSession);
-      await sessionHandler.storeSession(onlineSession);
+      await sessionHandler.storeSession(offlineSession)
+      await sessionHandler.storeSession(onlineSession)
 
       const isFreshInstall = await prisma.stores.findFirst({
         where: {
           shop: onlineSession.shop,
         },
-      });
+      })
 
       if (!isFreshInstall || isFreshInstall?.isActive === false) {
         // !isFreshInstall -> 新安装
         // isFreshInstall?.isActive === false -> 重新安装
-        await freshInstall({ shop: onlineSession.shop });
+        await freshInstall({ shop: onlineSession.shop })
       }
     } else {
       // 用户再次访问了页面。
@@ -51,32 +51,32 @@ const isInitialLoad = async (
     }
     return {
       props: {
-        data: "ok",
+        data: 'ok',
       },
-    };
+    }
   } catch (e) {
-    const error = e as Error;
+    const error = e as Error
     if (
-      error.message.includes("Failed to parse session token") &&
-      process.env.NODE_ENV === "development"
+      error.message.includes('Failed to parse session token')
+      && process.env.NODE_ENV === 'development'
     ) {
       console.warn(
-        "JWT 错误 - 在开发模式下会发生，可以安全地忽略，但在生产环境中不能忽略。",
-      );
+        'JWT 错误 - 在开发模式下会发生，可以安全地忽略，但在生产环境中不能忽略。',
+      )
     } else {
-      console.error(`---> isInitialLoad 发生错误: ${error.message}`, e);
+      console.error(`---> isInitialLoad 发生错误: ${error.message}`, e)
       return {
         props: {
           serverError: true,
         },
-      };
+      }
     }
     return {
       props: {
-        data: "ok",
+        data: 'ok',
       },
-    };
+    }
   }
-};
+}
 
-export default isInitialLoad;
+export default isInitialLoad

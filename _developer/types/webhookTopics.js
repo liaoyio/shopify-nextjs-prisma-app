@@ -1,6 +1,6 @@
-//Ref: https://shopify.dev/docs/api/webhooks/2025-04?reference=toml
+// Ref: https://shopify.dev/docs/api/webhooks/2025-04?reference=toml
 /**
- * @typedef {Object} WebhookTopics
+ * @typedef {object} WebhookTopics
  * @property {Array<(
  * 'app/scopes_update' |
  * 'app/uninstalled' |
@@ -202,4 +202,4 @@
  * )>} topic - Topic of the webhook
  */
 
-export {};
+export {}

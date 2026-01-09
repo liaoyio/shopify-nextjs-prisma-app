@@ -1,7 +1,7 @@
 /**
  * 请勿删除将店铺 upsert 为 `true` 的 Prisma 查询。
  */
-import prisma from "./prisma";
+import prisma from './prisma'
 
 /**
  * @async
@@ -11,27 +11,27 @@ import prisma from "./prisma";
  */
 const freshInstall = async ({ shop }: { shop: string }): Promise<void> => {
   try {
-    console.log("这是一个全新安装，正在运行引导函数");
+    console.log('这是一个全新安装，正在运行引导函数')
 
     await prisma.stores.upsert({
       where: {
-        shop: shop,
+        shop,
       },
       update: {
-        shop: shop,
+        shop,
         isActive: true,
       },
       create: {
-        shop: shop,
+        shop,
         isActive: true,
       },
-    });
+    })
 
-    //其他函数从这里开始
+    // 其他函数从这里开始
   } catch (e) {
-    const error = e as Error;
-    console.error(`---> freshInstall 函数中发生错误: ${error.message}`, e);
+    const error = e as Error
+    console.error(`---> freshInstall 函数中发生错误: ${error.message}`, e)
   }
-};
+}
 
-export default freshInstall;
+export default freshInstall

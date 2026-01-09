@@ -6,30 +6,30 @@ import {
   Page,
   Text,
   TextField,
-} from "@shopify/polaris";
-import { useRouter } from "next/router";
-import { useState } from "react";
+} from '@shopify/polaris'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 const ResourcePicker = () => {
-  const router = useRouter();
-  const [initialQuery, setInitialQuery] = useState("");
-  const [resourcePickerSelection, setResourcePickerSelection] = useState("");
+  const router = useRouter()
+  const [initialQuery, setInitialQuery] = useState('')
+  const [resourcePickerSelection, setResourcePickerSelection] = useState('')
 
   async function openResourcePicker(initQuery: string) {
     const selected = await window?.shopify?.resourcePicker?.({
-      type: "product",
+      type: 'product',
       query: initQuery,
       filter: {
         hidden: false,
         variants: true,
       },
-      action: "select",
+      action: 'select',
       multiple: false,
-    });
+    })
 
     if (selected) {
-      setResourcePickerSelection(JSON.stringify(selected, null, 2));
-      setInitialQuery("");
+      setResourcePickerSelection(JSON.stringify(selected, null, 2))
+      setInitialQuery('')
     }
   }
 
@@ -39,17 +39,17 @@ const ResourcePicker = () => {
         title="Resource Picker"
         subtitle="Use AppBridge CDN to pick products"
         primaryAction={{
-          content: "Docs",
+          content: 'Docs',
           onAction: () => {
             open(
-              "https://shopify.dev/docs/api/app-bridge-library/reference/resource-picker",
-              "_blank",
-            );
+              'https://shopify.dev/docs/api/app-bridge-library/reference/resource-picker',
+              '_blank',
+            )
           },
         }}
         backAction={{
           onAction: () => {
-            router.push("/debug");
+            router.push('/debug')
           },
         }}
       >
@@ -65,21 +65,21 @@ const ResourcePicker = () => {
                   autoComplete="off"
                   value={initialQuery}
                   onChange={(value) => {
-                    setInitialQuery(value);
-                    openResourcePicker(value);
+                    setInitialQuery(value)
+                    openResourcePicker(value)
                   }}
-                  connectedRight={
+                  connectedRight={(
                     <>
                       <Button
                         variant="primary"
                         onClick={() => {
-                          openResourcePicker(initialQuery);
+                          openResourcePicker(initialQuery)
                         }}
                       >
                         Search
                       </Button>
                     </>
-                  }
+                  )}
                 />
               </BlockStack>
             </Card>
@@ -97,7 +97,7 @@ const ResourcePicker = () => {
         </Layout>
       </Page>
     </>
-  );
-};
+  )
+}
 
-export default ResourcePicker;
+export default ResourcePicker

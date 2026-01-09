@@ -1,28 +1,29 @@
-import { LogSeverity, shopifyApi } from "@shopify/shopify-api";
-import "@shopify/shopify-api/adapters/node";
-import appUninstallHandler from "./webhooks/app_uninstalled";
-import type { ShopifyUserConfig } from "@/types/shopify";
+import type { ApiVersion, AuthScopes } from '@shopify/shopify-api'
+import { LogSeverity, shopifyApi } from '@shopify/shopify-api'
+import '@shopify/shopify-api/adapters/node'
+import appUninstallHandler from './webhooks/app_uninstalled'
+import type { ShopifyUserConfig } from '@/types/shopify'
 
-const isDev = process.env.NODE_ENV === "development";
+const isDev = process.env.NODE_ENV === 'development'
 
 // 设置 Shopify 配置
 const baseShopify = shopifyApi({
   apiKey: process.env.SHOPIFY_API_KEY,
   apiSecretKey: process.env.SHOPIFY_API_SECRET!,
-  scopes: process.env.SHOPIFY_API_SCOPES,
-  hostName: process.env.SHOPIFY_APP_URL?.replace(/https:\/\//, "") || "",
-  hostScheme: "https",
-  apiVersion: process.env.SHOPIFY_API_VERSION,
+  scopes: process.env.SHOPIFY_API_SCOPES as unknown as AuthScopes,
+  hostName: process.env.SHOPIFY_APP_URL?.replace(/https:\/\//, '') || '',
+  hostScheme: 'https',
+  apiVersion: process.env.SHOPIFY_API_VERSION as ApiVersion,
   isEmbeddedApp: true,
   logger: { level: isDev ? LogSeverity.Info : LogSeverity.Error },
-});
+})
 
-//向基础 shopify 对象添加自定义用户属性
+// 向基础 shopify 对象添加自定义用户属性
 const user: ShopifyUserConfig = {
   webhooks: [
     {
-      topics: ["app/uninstalled"] as const,
-      url: "/api/webhooks/app_uninstalled",
+      topics: ['app/uninstalled'] as const,
+      url: '/api/webhooks/app_uninstalled',
       callback: appUninstallHandler,
     },
   ],
@@ -55,14 +56,14 @@ const user: ShopifyUserConfig = {
     // },
   ],
   metaobjects: [
-    //支持即将推出。
+    // 支持即将推出。
   ],
-};
+}
 
 // 使用类型断言来扩展 shopify 对象，使其包含 user 属性
 const shopify = {
   ...baseShopify,
   user,
-} as typeof baseShopify & { user: ShopifyUserConfig };
+} as typeof baseShopify & { user: ShopifyUserConfig }
 
-export default shopify;
+export default shopify

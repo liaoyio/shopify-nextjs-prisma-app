@@ -7,42 +7,42 @@ export type WebhookHandler = (
   webhookRequestBody: string,
   webhookId: string,
   apiVersion: string,
-) => Promise<void>;
+) => Promise<void>
 
 /**
  * Webhook 配置项
  */
-export interface WebhookConfig {
-  topics: readonly string[];
-  url: string;
-  callback: WebhookHandler;
-  include_fields?: string[];
-  filter?: string;
+export type WebhookConfig = {
+  topics: readonly string[]
+  url: string
+  callback: WebhookHandler
+  include_fields?: string[]
+  filter?: string
 }
 
 /**
  * Metafield 配置项（可根据需要扩展）
  */
-export interface MetafieldConfig {
+export type MetafieldConfig = {
   // 根据实际需要定义
-  [key: string]: any;
+  [key: string]: any
 }
 
 /**
  * Metaobject 配置项（可根据需要扩展）
  */
-export interface MetaobjectConfig {
+export type MetaobjectConfig = {
   // 根据实际需要定义
-  [key: string]: any;
+  [key: string]: any
 }
 
 /**
  * 用户自定义配置
  */
-export interface ShopifyUserConfig {
-  webhooks: WebhookConfig[];
-  metafields?: MetafieldConfig[];
-  metaobjects?: MetaobjectConfig[];
+export type ShopifyUserConfig = {
+  webhooks: WebhookConfig[]
+  metafields?: MetafieldConfig[]
+  metaobjects?: MetaobjectConfig[]
 }
 
-export {};
+export {}

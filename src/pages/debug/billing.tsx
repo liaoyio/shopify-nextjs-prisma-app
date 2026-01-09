@@ -7,48 +7,48 @@ import {
   Layout,
   Page,
   Text,
-} from "@shopify/polaris";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+} from '@shopify/polaris'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
-interface Subscription {
-  name: string;
-  status: string;
-  test: boolean;
+type Subscription = {
+  name: string
+  status: string
+  test: boolean
   lineItems: Array<{
     plan: {
       pricingDetails: {
         price: {
-          amount: string;
-          currencyCode: string;
-        };
-      };
-    };
-  }>;
+          amount: string
+          currencyCode: string
+        }
+      }
+    }
+  }>
 }
 
-interface ActiveSubscriptionsData {
+type ActiveSubscriptionsData = {
   data?: {
     appInstallation?: {
-      activeSubscriptions?: Subscription[];
-    };
-  };
+      activeSubscriptions?: Subscription[]
+    }
+  }
 }
 
 const BillingAPI = () => {
-  const router = useRouter();
-  const [responseData, setResponseData] = useState("");
+  const router = useRouter()
+  const [responseData, setResponseData] = useState('')
 
   async function fetchContent() {
-    setResponseData("loading...");
-    const res = await fetch("/api/apps/debug/createNewSubscription");
-    const data = await res.json();
+    setResponseData('loading...')
+    const res = await fetch('/api/apps/debug/createNewSubscription')
+    const data = await res.json()
     if (data.error) {
-      setResponseData(data.error);
+      setResponseData(data.error)
     } else if (data.confirmationUrl) {
-      setResponseData("Redirecting");
-      const { confirmationUrl } = data;
-      open(confirmationUrl, "_top");
+      setResponseData('Redirecting')
+      const { confirmationUrl } = data
+      open(confirmationUrl, '_top')
     }
   }
 
@@ -57,7 +57,7 @@ const BillingAPI = () => {
       title="Billing API"
       subtitle="Ensure your app is set to `public distribution` to use Billing API"
       backAction={{
-        onAction: () => router.push("/debug"),
+        onAction: () => router.push('/debug'),
       }}
     >
       <Layout>
@@ -74,7 +74,7 @@ const BillingAPI = () => {
                 <Button
                   variant="primary"
                   onClick={() => {
-                    fetchContent();
+                    fetchContent()
                   }}
                 >
                   Subscribe Merchant
@@ -88,36 +88,36 @@ const BillingAPI = () => {
         </Layout.Section>
       </Layout>
     </Page>
-  );
-};
+  )
+}
 
 const ActiveSubscriptions = () => {
-  const [rows, setRows] = useState<string[][]>([]);
+  const [rows, setRows] = useState<string[][]>([])
 
   async function getActiveSubscriptions() {
-    const res = await fetch("/api/apps/debug/getActiveSubscriptions");
-    const data: ActiveSubscriptionsData = await res.json();
+    const res = await fetch('/api/apps/debug/getActiveSubscriptions')
+    const data: ActiveSubscriptionsData = await res.json()
 
-    const rowsData: string[][] = [];
-    const activeSubscriptions =
-      data?.data?.appInstallation?.activeSubscriptions;
+    const rowsData: string[][] = []
+    const activeSubscriptions
+      = data?.data?.appInstallation?.activeSubscriptions
 
     if (!activeSubscriptions || activeSubscriptions.length === 0) {
-      rowsData.push(["No Plan", "N/A", "N/A", "USD 0.00"]);
+      rowsData.push(['No Plan', 'N/A', 'N/A', 'USD 0.00'])
     } else {
-      console.log("Rendering Data");
+      console.log('Rendering Data')
       Object.entries(activeSubscriptions).forEach(([, value]) => {
-        const { name, status, test } = value;
-        const { amount, currencyCode } =
-          value.lineItems[0].plan.pricingDetails.price;
-        rowsData.push([name, status, `${test}`, `${currencyCode} ${amount}`]);
-      });
+        const { name, status, test } = value
+        const { amount, currencyCode }
+          = value.lineItems[0].plan.pricingDetails.price
+        rowsData.push([name, status, `${test}`, `${currencyCode} ${amount}`])
+      })
     }
-    setRows(rowsData);
+    setRows(rowsData)
   }
   useEffect(() => {
-    getActiveSubscriptions();
-  }, []);
+    getActiveSubscriptions()
+  }, [])
 
   return (
     <Card>
@@ -126,13 +126,13 @@ const ActiveSubscriptions = () => {
           Active Subscriptions
         </Text>
         <DataTable
-          columnContentTypes={["text", "text", "text", "text"]}
-          headings={["Plan Name", "Status", "Test", "Amount"]}
+          columnContentTypes={['text', 'text', 'text', 'text']}
+          headings={['Plan Name', 'Status', 'Test', 'Amount']}
           rows={rows}
         />
       </BlockStack>
     </Card>
-  );
-};
+  )
+}
 
-export default BillingAPI;
+export default BillingAPI
