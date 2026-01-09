@@ -1,29 +1,29 @@
-# Shopify Next.js x Prisma Boilerplate
+# Shopify Next.js x Prisma 模板
 
-An embedded app starter template to get up and ready with Shopify app development with Next.js and Prisma.
+一个嵌入式应用启动模板，用于使用 Next.js 和 Prisma 进行 Shopify 应用开发。
 
-I've included [notes](/docs/NOTES.md) on this repo which goes over the repo on why certain choices were made.
+我已经在此仓库中包含了[笔记](/docs/NOTES.md)，解释了为什么做出某些选择。
 
-## Video
+## 视频
 
-I made a video that goes over the entire repo, creating theme extension and deploying with Vercel and PlanetScale.
+我制作了一个视频，介绍了整个仓库，创建主题扩展并使用 Vercel 和 PlanetScale 进行部署。
 
-[![Creating a Shopify app from scratch](https://i3.ytimg.com/vi/vm8RTN-QSEk/maxresdefault.jpg)](https://www.youtube.com/watch?v=vm8RTN-QSEk)
+[![从零开始创建 Shopify 应用](https://i3.ytimg.com/vi/vm8RTN-QSEk/maxresdefault.jpg)](https://www.youtube.com/watch?v=vm8RTN-QSEk)
 
-## Supporting repositories
+## 相关仓库
 
-- [`@kinngh/shopify-node-express-mongodb-app`](https://github.com/kinngh/shopify-node-express-mongodb-app): Shopify app starter repo built with Express.js, React.js and Vite.
-- [`@kinngh/shopify-polaris-playground`](https://github.com/kinngh/shopify-polaris-playground): Build your app's UI using Polaris, without an internet connection.
+- [`@kinngh/shopify-node-express-mongodb-app`](https://github.com/kinngh/shopify-node-express-mongodb-app): 使用 Express.js、React.js 和 Vite 构建的 Shopify 应用启动仓库。
+- [`@kinngh/shopify-polaris-playground`](https://github.com/kinngh/shopify-polaris-playground): 在没有网络连接的情况下使用 Polaris 构建应用 UI。
 
-## Why I made this
+## 为什么创建这个
 
-Building with Express and React was great but eventually there comes a time where you have to remind yourself that you need to get on with the times and use what's new and stable. Serverless made sense, and Next.js made even more.
+使用 Express 和 React 构建很棒，但最终你会意识到需要跟上时代，使用新的、稳定的技术。无服务器架构很有意义，而 Next.js 更是如此。
 
-## Notes
+## 笔记
 
-- Refer to [SETUP](/docs/SETUP.md)
-- The project comes with snippets to speed up development. Refer to [Snippets](/docs/SNIPPETS.md).
-- App Bridge CDN migration guide is available [here](/docs/migration/app-bridge-cdn.md)
-- Shopify Managed Installation migration guide is available [here](/docs/migration/oauth-to-managed-installation.md)
-- Client Provider abstraction update guide is available [here](/docs/migration/clientProvider.md)
-- GraphQL to Managed Webhooks migration guide is available [here](/docs/migration/managed-webhooks.md)
+- 参考 [SETUP](/docs/SETUP.md)
+- 项目包含代码片段以加快开发速度。参考 [Snippets](/docs/SNIPPETS.md)。
+- App Bridge CDN 迁移指南可在[此处](/docs/migration/app-bridge-cdn.md)找到
+- Shopify 托管安装迁移指南可在[此处](/docs/migration/oauth-to-managed-installation.md)找到
+- 客户端提供者抽象更新指南可在[此处](/docs/migration/clientProvider.md)找到
+- GraphQL 到托管 Webhooks 迁移指南可在[此处](/docs/migration/managed-webhooks.md)找到

@@ -1,7 +1,7 @@
-# Checkout Extensions
+# 结账扩展
 
-Making requests from checkout extensions requires an update of middleware. The `verifyCheckout` middleware was introduced exactly for that.
+从结账扩展发出请求需要更新中间件。`verifyCheckout` 中间件正是为此而引入的。
 
-A checkout extension will always first hit a OPTIONS HTTP request before it makes a GET or POST, which is why we return `200` on `OPTIONS` and then proceed with everything else.
+结账扩展在进行 GET 或 POST 之前总是首先发出 OPTIONS HTTP 请求，这就是为什么我们在 `OPTIONS` 上返回 `200`，然后继续处理其他所有内容。
 
-Please note that you should rely on metafields on checkout since that's the fastest way to get things done, and only use the checkout route if you need to access external services.
+请注意，您应该依赖结账上的元字段，因为这是完成工作的最快方式，只有在需要访问外部服务时才使用结账路由。

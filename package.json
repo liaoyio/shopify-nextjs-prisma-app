@@ -3,12 +3,12 @@
   "version": "2025.12.29",
   "type": "module",
   "author": {
-    "name": "Harshdeep Singh Hura",
-    "url": "https://harshdeephura.com"
+    "name": "liaoyio",
+    "url": "https://liaoyi.im/"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kinngh/shopify-nextjs-prisma-app.git"
+    "url": "https://github.com/liaoyio/shopify-nextjs-prisma-app.git"
   },
   "scripts": {
     "dev": "next dev",
@@ -23,7 +23,7 @@
     "-----> Shopify <-----": "",
     "g:install": "npm i -g @shopify/cli@latest",
     "shopify": "shopify",
-    "update:config": "node _developer/tomlWriter.js; npm run pretty; shopify app deploy;",
+    "update:config": "tsx _developer/tomlWriter.ts; npm run pretty; shopify app deploy;",
     "-----> Database <-----": "",
     "pg:create": "mkdir database; pg_ctl -D database init",
     "pg:start": "pg_ctl -D database start",
@@ -53,11 +53,22 @@
   },
   "devDependencies": {
     "@iarna/toml": "^2.2.5",
-    "@shopify/polaris-types": "^1.0.1",
+    "@shopify/app-bridge-react": "^4.2.8",
+    "@shopify/app-bridge-types": "^0.5.3",
     "@shopify/cli-kit": "^3.88.1",
+    "@shopify/polaris-icons": "^9.3.1",
+    "@shopify/polaris-types": "^1.0.1",
+    "@t3-oss/env-nextjs": "^0.13.10",
+    "@types/node": "^22.18.8",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "^1.0.0",
     "ngrok": "^5.0.0-beta.2",
     "npm-check-updates": "^19.2.0",
     "prettier": "^3.7.4",
-    "prisma": "^7.2.0"
+    "prisma": "^7.2.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "zod": "^4.3.5"
   }
 }

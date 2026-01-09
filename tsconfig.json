@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "target": "ES2017",
+    "jsx": "react-jsx",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "~/*": ["./*"],
+      "env": ["./env.ts"],
+      "@/*": ["./src/*"]
+    },
+    "types": ["@shopify/polaris-types", "@shopify/app-bridge-types"]
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}

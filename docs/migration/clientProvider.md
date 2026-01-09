@@ -1,10 +1,10 @@
-# Client Provider
+# clientProvider
 
-The `clientProvider` abstraction has gotten a makeover to simplify the API. Instead of exposting `graphqlClient` and `restClient` functions, it now has a namespace that contains both `online` and `offline` objects. Each object contains a `graphqlClient` and `restClient` function that can be used to create a client for the respective access mode.
+`clientProvider` 抽象已经进行了改造以简化 API。它不再公开 `graphqlClient` 和 `restClient` 函数，而是具有包含 `online` 和 `offline` 对象的命名空间。每个对象都包含一个 `graphqlClient` 和 `restClient` 函数，可用于为相应的访问模式创建客户端。
 
-## Usage
+## 用法
 
-### Online Client
+### 在线客户端
 
 ```javascript
 import clientProvider from "@/utils/clientProvider";
@@ -20,7 +20,7 @@ const { client, shop, session } = await clientProvider.online.restClient({
 });
 ```
 
-### Offline Client
+### 离线客户端
 
 ```javascript
 import clientProvider from "@/utils/clientProvider";
@@ -34,7 +34,7 @@ const { client, shop, session } = await clientProvider.offline.restClient({
 });
 ```
 
-## Steps
+## 步骤
 
-1. Head into `verifyRequest` and add in `req.user_shop = session.shop` after `req.user_session = session;`.
-2. Update your `graphqlClient` and `restClient` calls to `clientProvider.online.graphqlClient` / `clientProvider.offline.graphqlClient` and `clientProvider.online.restClient` / `clientProvider.offline.restClient`
+1. 进入 `verifyRequest` 并在 `req.user_session = session;` 之后添加 `req.user_shop = session.shop`。
+2. 将您的 `graphqlClient` 和 `restClient` 调用更新为 `clientProvider.online.graphqlClient` / `clientProvider.offline.graphqlClient` 和 `clientProvider.online.restClient` / `clientProvider.offline.restClient`

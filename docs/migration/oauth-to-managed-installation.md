@@ -1,45 +1,45 @@
-# OAuth to Managed Installation
+# OAuth 到托管安装
 
-Shopify introduced `Shopify Managed Installation` to get rid of screen flickering during auth, unnecessary auth redirects while fetching online sessions and other misc issues. To oversimplify, you pass the access tokens to Shopify and get Session tokens in return like a regular fetch and save it in your database. Here's a rundown of what's changed:
+Shopify 引入了 `Shopify 托管安装` 以消除身份验证期间的屏幕闪烁、获取在线会话时不必要的身份验证重定向以及其他各种问题。简单来说，您将访问令牌传递给 Shopify，并像常规获取一样获得会话令牌，然后将其保存到数据库中。以下是更改的内容：
 
-1. Changes in Auth
+1. 身份验证的更改
 
-The older way of doing auth is still supported from Shopify but for embedded apps in this repo, it's gone and so are the files. I've completely removed the older strait to run auth.
+Shopify 仍然支持较旧的身份验证方式，但对于此仓库中的嵌入式应用，它已经消失，文件也是如此。我已经完全移除了运行身份验证的旧方式。
 
-- `pages/api/auth/index.js`: Removed.
-- `pages/api/auth/token.js`: Removed.
-- `pages/api/auth/callback.js`: Removed.
+- `pages/api/auth/index.js`: 已移除。
+- `pages/api/auth/token.js`: 已移除。
+- `pages/api/auth/callback.js`: 已移除。
 
-2. Updates to `isShopAvailable` function
+2. 更新 `isShopAvailable` 函数
 
-`pages/index.jsx` now calls a new function, `isInitialLoad` instead of `isShopAvailable`. The new strait means on the first load we get `id_token` as a query param that is exchanged for online and offline session tokens. `isInitialLoad` checks if these params exist, exchanges them for online and offline tokens and saves them in the db.
+`pages/index.jsx` 现在调用一个新函数 `isInitialLoad`，而不是 `isShopAvailable`。新方式意味着在首次加载时，我们获取 `id_token` 作为查询参数，该参数被交换为在线和离线会话令牌。`isInitialLoad` 检查这些参数是否存在，将它们交换为在线和离线令牌，并将它们保存到数据库中。
 
-A new check also happens here, `isFreshInstall`. Since the database structure is kept the same to ensure smooth transition to the new auth, we can now check if the install was a fresh one. If the store doesn't exist in the `store` model, it's a new install, but if it does have a `Bool` value, that means it's either already installed or is a reinstall. While I've merged these in an if condition, you can break them apart and run your own checks if required.
+这里也发生了一个新检查，`isFreshInstall`。由于保持数据库结构相同以确保平滑过渡到新身份验证，我们现在可以检查安装是否是全新的。如果 `store` 模型中不存在该店铺，这是一个新安装，但如果它有一个 `Bool` 值，这意味着它已经安装或者是重新安装。虽然我已经在 if 条件中合并了这些，但您可以将它们分开，如果需要，运行您自己的检查。
 
 ```javascript
 if (!isFreshInstall || isFreshInstall?.isActive === false) {
-  // !isFreshInstall -> New Install
-  // isFreshInstall?.isActive === false -> Reinstall
+  // !isFreshInstall -> 新安装
+  // isFreshInstall?.isActive === false -> 重新安装
   await freshInstall({ shop: onlineSession.shop });
 }
 ```
 
-This is now followed up with a `props` return since `getServerSideProps` has to return it.
+由于 `getServerSideProps` 必须返回它，现在这后面跟着一个 `props` 返回。
 
-3. Changes to `verifyRequest` and `ExitFrame`
+3. `verifyRequest` 和 `ExitFrame` 的更改
 
-The `verifyRequest()` middleware now works completely differently. First we check for `authorization` headers in each `fetch()` since App Bridge CDN automatically adds headers to each `fetch`. Then a JWT validation is run to ensure the headers are valid, followed by getting the session id and rading from the database, check for expiry and fetch new tokens if the online tokens have expired. Then pass the session to use in subsequent routes as `req.user_session` and the middleware is done.
+`verifyRequest()` 中间件现在的工作方式完全不同。首先，我们在每个 `fetch()` 中检查 `authorization` 头，因为 App Bridge CDN 会自动向每个 `fetch` 添加头。然后运行 JWT 验证以确保头有效，然后获取会话 id 并从数据库读取，检查过期并在在线令牌过期时获取新令牌。然后将会话传递给后续路由使用，作为 `req.user_session`，中间件完成。
 
-A great thing about this is `ExitFrame` doesn't exist anymore. If the tokens are invalid, we throw a `401` and if the tokens are expired, we fetch them and move on to the next set.
+关于这一点的一个好处是 `ExitFrame` 不再存在。如果令牌无效，我们抛出 `401`，如果令牌过期，我们获取它们并继续下一步。
 
-4. Quick auth URL
+4. 快速身份验证 URL
 
-The quick auth URL has gotten an update. We've moved from `https://appurl.com/api/auth?shop=storename.myshopify.com` to `https://storename.myshopify.com/admin/oauth/install?client_id=SHOPIFY_API_KEY`, which now takes the merchant to the install screen.
+快速身份验证 URL 已更新。我们从 `https://appurl.com/api/auth?shop=storename.myshopify.com` 迁移到 `https://storename.myshopify.com/admin/oauth/install?client_id=SHOPIFY_API_KEY`，这现在将商家带到安装屏幕。
 
-5. Depricating `useFetch()` hook
+5. 弃用 `useFetch()` hook
 
-The idea of `useFetch()` was to redirect towards `ExitFrame` if the tokens had expired or not found - this is not required anymore. All vanilla `fetch` requests work since AppBridge CDN adds in authorization headers in the background.
+`useFetch()` 的想法是如果令牌已过期或未找到，则重定向到 `ExitFrame` - 这不再需要。所有普通的 `fetch` 请求都可以工作，因为 AppBridge CDN 在后台添加授权头。
 
-6. Thoughts
+6. 思考
 
-Managed installation is great. No flickering, no running through ExitFrame, it's 10/10 all around. The only problem is now you don't get a hit when someone comes over to the permissions screen and are only made aware of the store when the permissions are approved. The new `tomlWriter` was built so that you are still only relying on your `env` and that's writing your `shopify.app.toml` file to root (and `extension/` folder). It took a second to wrap my head around but once you get the hang of it, it's great.
+托管安装很棒。没有闪烁，没有运行 ExitFrame，整体评价 10/10。唯一的问题是，现在当有人来到权限屏幕时，您不会收到提示，只有在批准权限时才被告知店铺。新的 `tomlWriter` 的构建使得您仍然只依赖您的 `env`，并将您的 `shopify.app.toml` 文件写入根目录（和 `extension/` 文件夹）。我花了一点时间来理解，但一旦您掌握了它，它就很棒。
