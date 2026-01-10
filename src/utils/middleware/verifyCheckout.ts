@@ -1,12 +1,6 @@
 import shopify from '@/utils/shopify'
 import validateJWT from '../validateJWT'
-import type { NextApiRequest, NextApiResponse } from 'next'
-
-declare module 'next' {
-  type NextApiRequest = {
-    user_shop?: string
-  }
-}
+import type { Middleware } from 'next-api-middleware'
 
 /**
  * @async
@@ -16,11 +10,7 @@ declare module 'next' {
  * @param next - 回调函数，用于将控制权传递给 Next.js API 路由中的下一个中间件函数。
  * @throws 如果授权头缺失或无效，或者载荷中未找到店铺，将抛出错误。
  */
-const verifyCheckout = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
-  next: () => void | Promise<void>,
-): Promise<void> => {
+const verifyCheckout: Middleware = async (req, res, next) => {
   // 在收到 GET/POST 请求之前，您首先会收到一个 OPTIONS 请求
   if (req.method === 'OPTIONS') {
     res.status(200).end()

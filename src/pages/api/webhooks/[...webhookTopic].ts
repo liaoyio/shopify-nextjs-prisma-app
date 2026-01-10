@@ -9,6 +9,7 @@
 
 import shopify from '@/utils/shopify'
 import appUninstallHandler from '@/utils/webhooks/app_uninstalled'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 async function buffer(readable: any): Promise<Buffer> {
   const chunks: Buffer[] = []
@@ -18,10 +19,7 @@ async function buffer(readable: any): Promise<Buffer> {
   return Buffer.concat(chunks)
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(400).send('必须是 POST 请求。')
   }

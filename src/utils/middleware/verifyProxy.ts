@@ -1,22 +1,7 @@
 import crypto from 'crypto'
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { Middleware } from 'next-api-middleware'
 
-declare module 'next' {
-  type NextApiRequest = {
-    user_shop?: string
-  }
-}
-
-/**
- * @param req - 传入的请求对象。
- * @param res - 响应对象。
- * @param next - 回调函数，用于将控制权传递给 Next.js API 路由中的下一个中间件函数。
- */
-const verifyProxy = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
-  next: () => void | Promise<void>,
-): Promise<void> => {
+const verifyProxy: Middleware = async (req, res, next) => {
   const { signature } = req.query as { signature: string }
 
   const queryURI = encodeQueryData(req.query as Record<string, string>)

@@ -1,7 +1,6 @@
 import clientProvider from '@/utils/clientProvider'
 import withMiddleware from '@/utils/middleware/withMiddleware'
 import type { NextApiRequest, NextApiResponse } from 'next'
-
 /**
  * @param req - The HTTP request object.
  * @param res - The HTTP response object.
