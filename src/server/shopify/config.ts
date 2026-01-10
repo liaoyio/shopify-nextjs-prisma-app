@@ -1,7 +1,7 @@
 import type { ApiVersion, AuthScopes } from '@shopify/shopify-api'
 import { LogSeverity, shopifyApi } from '@shopify/shopify-api'
 import '@shopify/shopify-api/adapters/node'
-import appUninstallHandler from './webhooks/app-uninstalled'
+import appUninstallHandler from './webhook/app-uninstalled'
 import type { ShopifyUserConfig } from '@/types/shopify'
 
 const isDev = process.env.NODE_ENV === 'development'

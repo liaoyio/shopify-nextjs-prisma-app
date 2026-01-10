@@ -1,14 +1,6 @@
 /* eslint-disable no-alert */
-import type {
-  TableData
-} from '@shopify/polaris'
-import {
-  Card,
-  DataTable,
-  Layout,
-  Page,
-  Text,
-} from '@shopify/polaris'
+import type { TableData } from '@shopify/polaris'
+import { Card, DataTable, Layout, Page, Text } from '@shopify/polaris'
 import { useRouter } from 'next/router'
 import type { ReactNode } from 'react'
 import { useEffect, useState } from 'react'

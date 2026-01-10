@@ -1,6 +1,6 @@
 import { Session } from '@shopify/shopify-api'
-import cryption from './cryption'
-import prisma from './prisma'
+import { cryption } from '~/src/server/utils/auth'
+import prisma from '../lib/database'
 
 /** 将会话数据存储到数据库 */
 const storeSession = async (session: Session): Promise<boolean> => {

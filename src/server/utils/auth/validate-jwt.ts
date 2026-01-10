@@ -7,7 +7,7 @@ import crypto from 'crypto'
  * @param secret - 签名密钥。默认使用 `process.env.SHOPIFY_API_SECRET` 的值
  * @returns 解码后的 JWT 载荷。
  */
-function validateJWT(
+export function validateJWT(
   token: string,
   secret: string | undefined = process.env.SHOPIFY_API_SECRET,
 ): Record<string, any> {
@@ -43,5 +43,3 @@ function validateJWT(
 
   return JSON.parse(payloadJson)
 }
-
-export default validateJWT

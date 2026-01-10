@@ -1,8 +1,8 @@
 import { RequestedTokenType } from '@shopify/shopify-api'
-import sessionHandler from '../session-handler'
-import shopify from '../shopify'
-import freshInstall from '../fresh-install'
-import prisma from '../prisma'
+import sessionHandler from '../shopify/session'
+import shopify from '../shopify/config'
+import freshInstall from '../shopify/install'
+import prisma from '../lib/database'
 import type { GetServerSidePropsContext } from 'next'
 
 /**

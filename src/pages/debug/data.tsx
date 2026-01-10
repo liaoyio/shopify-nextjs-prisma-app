@@ -26,6 +26,35 @@ const useDataFetcher = (
   return [data, fetchData] as const
 }
 
+const useUserInfoFetcher = () => {
+  const [userInfo, setUserInfo] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const fetchUserInfo = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const result = await (await fetch('/api/apps/user-info')).json()
+      if (result.error) {
+        setError(result.error)
+        setUserInfo(null)
+      } else {
+        setUserInfo(result)
+        setError(null)
+      }
+    } catch (e) {
+      const err = e as Error
+      setError(err.message)
+      setUserInfo(null)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return [userInfo, loading, error, fetchUserInfo] as const
+}
+
 type DataCardProps = {
   method: string
   url: string
@@ -47,6 +76,133 @@ const DataCard = ({ method, url, data, onRefetch }: DataCardProps) => (
         </Text>
         <InlineStack align="end">
           <Button variant="primary" onClick={onRefetch}>
+            Refetch
+          </Button>
+        </InlineStack>
+      </BlockStack>
+    </Card>
+  </Layout.Section>
+)
+
+type UserInfoCardProps = {
+  userInfo: any
+  loading: boolean
+  error: string | null
+  onRefetch: () => void
+}
+
+const UserInfoCard = ({
+  userInfo,
+  loading,
+  error,
+  onRefetch,
+}: UserInfoCardProps) => (
+  <Layout.Section>
+    <Card>
+      <BlockStack gap="400">
+        <Text as="h2" variant="headingMd">
+          GET
+          {' '}
+          <code>/api/apps/user-info</code>
+        </Text>
+        {loading && <Text as="p">Loading...</Text>}
+        {error && (
+          <Text as="p" tone="critical">
+            Error:
+            {' '}
+            {error}
+          </Text>
+        )}
+        {userInfo && !loading && (
+          <BlockStack gap="200">
+            <BlockStack gap="100">
+              <Text as="h3" variant="headingSm">
+                User Information:
+              </Text>
+              {userInfo.user ? (
+                <BlockStack gap="050">
+                  <Text as="p">
+                    ID:
+                    {userInfo.user.id}
+                  </Text>
+                  <Text as="p">
+                    Email:
+                    {userInfo.user.email}
+                  </Text>
+                  <Text as="p">
+                    Name:
+                    {' '}
+                    {userInfo.user.firstName}
+                    {' '}
+                    {userInfo.user.lastName}
+                  </Text>
+                  <Text as="p">
+                    Locale:
+                    {userInfo.user.locale}
+                  </Text>
+                  <Text as="p">
+                    Account Owner:
+                    {' '}
+                    {userInfo.user.accountOwner ? 'Yes' : 'No'}
+                  </Text>
+                  <Text as="p">
+                    Email Verified:
+                    {' '}
+                    {userInfo.user.emailVerified ? 'Yes' : 'No'}
+                  </Text>
+                  <Text as="p">
+                    Collaborator:
+                    {' '}
+                    {userInfo.user.collaborator ? 'Yes' : 'No'}
+                  </Text>
+                </BlockStack>
+              ) : (
+                <Text as="p" tone="subdued">
+                  No user information available (offline session)
+                </Text>
+              )}
+            </BlockStack>
+            <BlockStack gap="100">
+              <Text as="h3" variant="headingSm">
+                Session Information:
+              </Text>
+              <BlockStack gap="050">
+                <Text as="p">
+                  Shop:
+                  {userInfo.session.shop}
+                </Text>
+                <Text as="p">
+                  Session Type:
+                  {' '}
+                  {userInfo.session.isOnline ? 'Online' : 'Offline'}
+                </Text>
+                <Text as="p">
+                  Scope:
+                  {userInfo.session.scope}
+                </Text>
+                <Text as="p">
+                  Expires:
+                  {' '}
+                  {userInfo.session.expires
+                    ? new Date(userInfo.session.expires).toLocaleString()
+                    : 'Never'}
+                </Text>
+              </BlockStack>
+            </BlockStack>
+            <BlockStack gap="100">
+              <Text as="h3" variant="headingSm">
+                Raw JSON:
+              </Text>
+              <Text as="p" variant="bodyMd" tone="subdued">
+                <pre style={{ fontSize: '12px', overflow: 'auto' }}>
+                  {JSON.stringify(userInfo, null, 2)}
+                </pre>
+              </Text>
+            </BlockStack>
+          </BlockStack>
+        )}
+        <InlineStack align="end">
+          <Button variant="primary" onClick={onRefetch} loading={loading}>
             Refetch
           </Button>
         </InlineStack>
@@ -77,11 +233,14 @@ const GetData = () => {
     '',
     '/api/apps/debug/gql',
   )
+  const [userInfo, userInfoLoading, userInfoError, fetchUserInfo]
+    = useUserInfoFetcher()
 
   useEffect(() => {
     fetchContent()
     fetchContentPost()
     fetchContentGQL()
+    fetchUserInfo()
   }, [])
 
   return (
@@ -108,6 +267,12 @@ const GetData = () => {
           url="/api/apps/debug/gql"
           data={responseDataGQL}
           onRefetch={fetchContentGQL}
+        />
+        <UserInfoCard
+          userInfo={userInfo}
+          loading={userInfoLoading}
+          error={userInfoError}
+          onRefetch={fetchUserInfo}
         />
       </Layout>
     </Page>

@@ -1,5 +1,5 @@
-import clientProvider from '@/utils/client-provider'
-import withMiddleware from '@/utils/middleware/with-middleware'
+import clientProvider from '@/server/shopify/client'
+import withMiddleware from '@/server/middleware'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 /**

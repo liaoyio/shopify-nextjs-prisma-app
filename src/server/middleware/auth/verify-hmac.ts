@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import shopify from '@/utils/shopify'
+import shopify from '@/server/shopify/config'
 import type { Middleware } from 'next-api-middleware'
 
 const verifyHmac: Middleware = async (req, res, next) => {

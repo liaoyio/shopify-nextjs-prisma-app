@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import shopify from '../src/utils/shopify'
+import shopify from '@/server/shopify/config'
 
 type ApiEndpoint = {
   topic: string
@@ -543,7 +543,13 @@ const webhookWriter = (config: AppConfig): void => {
   writeToApi()
 }
 
-const shopifyFilePath = path.join(process.cwd(), 'src', 'utils', 'shopify.ts')
+const shopifyFilePath = path.join(
+  process.cwd(),
+  'src',
+  'server',
+  'shopify',
+  'config.ts',
+)
 const webhookTopicFilePath = path.join(
   process.cwd(),
   'src',
@@ -557,15 +563,15 @@ async function writeToApi(): Promise<void> {
   try {
     const shopifyFileContent = fs.readFileSync(shopifyFilePath, 'utf8')
     const webhookImports = shopifyFileContent.match(
-      /import .* from "\.\/webhooks\/.*";/g,
+      /import .* from "\.\/webhook\/.*";/g,
     )
 
     let webhookTopicFileContent = fs.readFileSync(webhookTopicFilePath, 'utf8')
 
     const topComment = `/**
  * 请勿直接编辑此文件
- * 请前往 utils/shopify.ts 创建您的 webhook
- *  并在 utils/webhooks 中编写您的 webhook 函数。
+ * 请前往 server/shopify/config.ts 创建您的 webhook
+ *  并在 server/shopify/webhook 中编写您的 webhook 函数。
  * 如果您不知道格式，在使用 VSCode 时使用 \`createwebhook\` 代码片段
  *  以获取 webhook 的模板函数。
  * 要更新此文件，请运行 \`npm run update:config\` 或 \`bun run update:config\`
@@ -578,15 +584,19 @@ async function writeToApi(): Promise<void> {
     )
 
     // 从注释和 shopify 导入开始
-    let newFileContent
-      = `${topComment}import shopify from "@/utils/shopify";\n`
+    let newFileContent = `${topComment}import shopify from "@/server/shopify/config";\n`
 
     // 从 webhook 处理程序添加新导入
     if (webhookImports) {
       webhookImports.forEach((importStatement) => {
-        const formattedImportStatement = importStatement.replace(
+        // 替换相对路径导入为绝对路径导入
+        let formattedImportStatement = importStatement.replace(
+          './webhook',
+          '@/server/shopify/webhook',
+        )
+        formattedImportStatement = formattedImportStatement.replace(
           './webhooks',
-          '@/utils/webhooks',
+          '@/server/shopify/webhook',
         )
         newFileContent += `${formattedImportStatement}\n`
       })

@@ -1,15 +1,13 @@
 /**
  * 请勿直接编辑此文件
- * 请前往 utils/shopify.ts 创建您的 webhook
- *  并在 utils/webhooks 中编写您的 webhook 函数。
+ * 请前往 server/shopify/config.ts 创建您的 webhook
+ *  并在 server/shopify/webhook 中编写您的 webhook 函数。
  * 如果您不知道格式，在使用 VSCode 时使用 `createwebhook` 代码片段
  *  以获取 webhook 的模板函数。
  * 要更新此文件，请运行 `npm run update:config` 或 `bun run update:config`
  */
 
-import shopify from '@/utils/shopify'
-import appUninstallHandler from '@/utils/webhooks/app-uninstalled'
-import type { NextApiRequest, NextApiResponse } from 'next'
+import shopify from '@/server/shopify/config'
 
 async function buffer(readable: any): Promise<Buffer> {
   const chunks: Buffer[] = []
@@ -19,7 +17,10 @@ async function buffer(readable: any): Promise<Buffer> {
   return Buffer.concat(chunks)
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method !== 'POST') {
     return res.status(400).send('必须是 POST 请求。')
   }

@@ -1,5 +1,5 @@
-import shopify from '@/utils/shopify'
-import validateJWT from '../validate-jwt'
+import shopify from '@/server/shopify/config'
+import { validateJWT } from '~/src/server/utils/auth'
 import type { Middleware } from 'next-api-middleware'
 
 /**

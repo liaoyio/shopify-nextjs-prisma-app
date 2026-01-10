@@ -57,4 +57,4 @@
  * @property {MetafieldValidations[]} validations
  */
 
-export {}
+export {};

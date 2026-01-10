@@ -1,7 +1,7 @@
 /**
  * 请勿删除将店铺 upsert 为 `true` 的 Prisma 查询。
  */
-import prisma from './prisma'
+import prisma from '../lib/database'
 
 /**
  * @async

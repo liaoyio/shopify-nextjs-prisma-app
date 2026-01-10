@@ -1,5 +1,5 @@
-import sessionHandler from './session-handler'
-import shopify from './shopify'
+import sessionHandler from './session'
+import shopify from './config'
 import type { Handle } from '@/types'
 
 /**
@@ -74,13 +74,7 @@ const online = {
     const { shop } = session
     return { client, shop, session }
   },
-  /**
-   * 创建用于在线访问的 Shopify Storefront 客户端。
-   * @async
-   * @param params - 请求和响应对象。
-   * @param req - Next.js API 请求对象
-   * @param res - Next.js API 响应对象
-   */
+  /** 创建用于在线访问的 Shopify Storefront 客户端 */
   storefrontClient: async ({ req, res }: Handle) => {
     const session = await fetchOnlineSession({ req, res })
     if (!session) {
@@ -92,10 +86,7 @@ const online = {
   },
 }
 
-/**
- * 为在线和离线访问提供 GraphQL 客户端提供者。
- * @namespace clientProvider
- */
+/** 为在线和离线访问提供 GraphQL Client Provider */
 const clientProvider = {
   offline,
   online,

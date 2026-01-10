@@ -5,5 +5,6 @@ declare module 'next' {
   export type NextApiRequest = NextApiRequestType & {
     user_session?: Session
     user_shop?: string
+    jwt_payload?: Record<string, any>
   }
 }

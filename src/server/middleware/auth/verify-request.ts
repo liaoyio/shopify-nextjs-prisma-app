@@ -1,7 +1,7 @@
-import sessionHandler from '@/utils/session-handler'
-import shopify from '@/utils/shopify'
+import sessionHandler from '@/server/shopify/session'
+import shopify from '@/server/shopify/config'
 import { RequestedTokenType, Session } from '@shopify/shopify-api'
-import validateJWT from '../validate-jwt'
+import { validateJWT } from '~/src/server/utils/auth'
 import type { Middleware } from 'next-api-middleware'
 
 const verifyRequest: Middleware = async (req, res, next) => {
@@ -38,7 +38,7 @@ const verifyRequest: Middleware = async (req, res, next) => {
       && shopify.config?.scopes
       && shopify.config.scopes.equals(session?.scope)
     ) {
-    // 会话有效
+      // 会话有效
     } else {
       session = await getSession({ shop, authHeader })
     }
@@ -47,9 +47,11 @@ const verifyRequest: Middleware = async (req, res, next) => {
       throw new Error('获取会话失败')
     }
 
-    // 将会话和店铺添加到请求对象中，以便使用此中间件的后续路由可以访问它
+    // 将会话、店铺和 JWT payload 添加到请求对象中，以便使用此中间件的后续路由可以访问它
     req.user_session = session
     req.user_shop = session.shop
+    // JWT payload 可能包含用户信息（如 sub, iss 等）
+    req.jwt_payload = payload
 
     await next()
   } catch (e) {

@@ -98,4 +98,4 @@
  * @property {boolean} include_config_on_deploy - Includes the toml file when deploying to Shopify
  */
 
-export {}
+export {};

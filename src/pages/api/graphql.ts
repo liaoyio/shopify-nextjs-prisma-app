@@ -1,6 +1,6 @@
-import withMiddleware from '@/utils/middleware/with-middleware'
-import shopify from '@/utils/shopify'
-import sessionHandler from '@/utils/session-handler'
+import withMiddleware from '@/server/middleware'
+import shopify from '@/server/shopify/config'
+import sessionHandler from '@/server/shopify/session'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 /**

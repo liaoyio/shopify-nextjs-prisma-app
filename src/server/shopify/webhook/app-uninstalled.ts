@@ -1,7 +1,7 @@
-// 要创建新的 webhook，请在 /utils/webhooks/ 中创建一个新的 `.ts` 文件，并使用项目代码片段
+// 要创建新的 webhook，请在 /server/shopify/webhook/ 中创建一个新的 `.ts` 文件，并使用项目代码片段
 // `createwebhook` 来生成 webhook 模板
 
-import prisma from '../prisma'
+import prisma from '../../lib/database'
 
 const appUninstallHandler = async (
   topic: string,

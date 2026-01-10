@@ -1,4 +1,4 @@
-import withMiddleware from '@/utils/middleware/with-middleware'
+import withMiddleware from '@/server/middleware'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type WebVitals = {

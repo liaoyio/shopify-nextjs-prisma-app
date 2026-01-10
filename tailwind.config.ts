@@ -15,8 +15,8 @@ export default {
       center: true,
       padding: {
         DEFAULT: '1.5rem',
-        md: '2rem'
-      }
+        md: '2rem',
+      },
     },
     extend: {
       colors: {

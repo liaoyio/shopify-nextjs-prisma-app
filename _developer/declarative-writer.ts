@@ -1,4 +1,4 @@
-import shopify from '../src/utils/shopify'
+import shopify from '@/server/shopify/config'
 
 type DeclarativeMetafieldDefinition = {
   owner_type: string

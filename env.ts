@@ -53,8 +53,6 @@ export const env = createEnv({
       .optional()
       .default('development'),
   },
-  client: {
-  },
-  experimental__runtimeEnv: {
-  },
+  client: {},
+  experimental__runtimeEnv: {},
 })

@@ -202,4 +202,4 @@
  * )>} topic - Topic of the webhook
  */
 
-export {}
+export {};

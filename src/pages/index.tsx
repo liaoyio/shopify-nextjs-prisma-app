@@ -1,4 +1,4 @@
-import isInitialLoad from '@/utils/middleware/is-initial-load'
+import isInitialLoad from '@/server/middleware/init'
 import {
   BlockStack,
   Button,

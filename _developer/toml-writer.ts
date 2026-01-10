@@ -2,7 +2,7 @@ import toml from '@iarna/toml'
 import 'dotenv/config'
 import fs from 'fs'
 import path from 'path'
-import setupCheck from '../src/utils/setup-check'
+import setupCheck from '@/server/utils/env'
 import declarativeWriter from './declarative-writer'
 import webhookWriter from './webhook-writer'
 
