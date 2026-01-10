@@ -41,7 +41,7 @@ const BillingAPI = () => {
 
   async function fetchContent() {
     setResponseData('loading...')
-    const res = await fetch('/api/apps/debug/createNewSubscription')
+    const res = await fetch('/api/apps/debug/create-new-subscription')
     const data = await res.json()
     if (data.error) {
       setResponseData(data.error)
@@ -95,7 +95,7 @@ const ActiveSubscriptions = () => {
   const [rows, setRows] = useState<string[][]>([])
 
   async function getActiveSubscriptions() {
-    const res = await fetch('/api/apps/debug/getActiveSubscriptions')
+    const res = await fetch('/api/apps/debug/get-active-subscriptions')
     const data: ActiveSubscriptionsData = await res.json()
 
     const rowsData: string[][] = []

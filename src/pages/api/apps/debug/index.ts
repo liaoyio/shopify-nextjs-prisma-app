@@ -1,6 +1,6 @@
 // 这与 `pages/api/index.ts` 相同。
 
-import withMiddleware from '@/utils/middleware/withMiddleware'
+import withMiddleware from '@/utils/middleware/with-middleware'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 /**

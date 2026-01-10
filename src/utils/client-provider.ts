@@ -1,6 +1,6 @@
-import sessionHandler from './sessionHandler'
+import sessionHandler from './session-handler'
 import shopify from './shopify'
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { Handle } from '@/types'
 
 /**
  * 获取与店铺关联的离线会话。
@@ -48,20 +48,8 @@ const offline = {
   },
 }
 
-/**
- * 获取与请求关联的在线会话。
- * @async
- * @param params - 请求和响应对象。
- * @param req - Next.js API 请求对象
- * @param res - Next.js API 响应对象
- */
-const fetchOnlineSession = async ({
-  req,
-  res,
-}: {
-  req: NextApiRequest
-  res: NextApiResponse
-}) => {
+/** 获取与请求关联的在线会话 */
+const fetchOnlineSession = async ({ req, res }: Handle) => {
   const sessionID = await shopify.session.getCurrentId({
     isOnline: true,
     rawRequest: req,
@@ -76,20 +64,8 @@ const fetchOnlineSession = async ({
  * @namespace online
  */
 const online = {
-  /**
-   * 创建用于在线访问的 Shopify GraphQL 客户端。
-   * @async
-   * @param params - 请求和响应对象。
-   * @param req - Next.js API 请求对象
-   * @param res - Next.js API 响应对象
-   */
-  graphqlClient: async ({
-    req,
-    res,
-  }: {
-    req: NextApiRequest
-    res: NextApiResponse
-  }) => {
+  /** 创建用于在线访问的 Shopify GraphQL 客户端 */
+  graphqlClient: async ({ req, res }: Handle) => {
     const session = await fetchOnlineSession({ req, res })
     if (!session) {
       throw new Error('加载在线会话失败')
@@ -105,13 +81,7 @@ const online = {
    * @param req - Next.js API 请求对象
    * @param res - Next.js API 响应对象
    */
-  storefrontClient: async ({
-    req,
-    res,
-  }: {
-    req: NextApiRequest
-    res: NextApiResponse
-  }) => {
+  storefrontClient: async ({ req, res }: Handle) => {
     const session = await fetchOnlineSession({ req, res })
     if (!session) {
       throw new Error('加载在线会话失败')

@@ -1,4 +1,4 @@
-import withMiddleware from '@/utils/middleware/withMiddleware'
+import withMiddleware from '@/utils/middleware/with-middleware'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 /**
@@ -12,14 +12,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { body } = req
     const shop = req.body.shop_domain
-    console.log('gdpr/customers_redact', body, shop)
+    console.log('gdpr/shop_redact', body, shop)
     return res.status(200).send({ message: 'ok' })
   } catch (e) {
     const error = e as Error
-    console.error(
-      `---> /api/gdpr/customers_redact 发生错误: ${error.message}`,
-      e,
-    )
+    console.error(`---> /api/gdpr/shop_redact 发生错误: ${error.message}`, e)
     return res.status(500).send({ error: true })
   }
 }

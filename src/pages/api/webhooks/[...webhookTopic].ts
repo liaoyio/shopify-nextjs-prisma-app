@@ -8,7 +8,7 @@
  */
 
 import shopify from '@/utils/shopify'
-import appUninstallHandler from '@/utils/webhooks/app_uninstalled'
+import appUninstallHandler from '@/utils/webhooks/app-uninstalled'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 async function buffer(readable: any): Promise<Buffer> {

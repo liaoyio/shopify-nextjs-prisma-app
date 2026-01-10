@@ -1,5 +1,5 @@
-import clientProvider from '@/utils/clientProvider'
-import withMiddleware from '@/utils/middleware/withMiddleware'
+import clientProvider from '@/utils/client-provider'
+import withMiddleware from '@/utils/middleware/with-middleware'
 import type { NextApiRequest, NextApiResponse } from 'next'
 /**
  * @param req - The HTTP request object.

@@ -2,9 +2,9 @@ import toml from '@iarna/toml'
 import 'dotenv/config'
 import fs from 'fs'
 import path from 'path'
-import setupCheck from '../src/utils/setupCheck'
-import declarativeWriter from './declarativeWriter'
-import webhookWriter from './webhookWriter'
+import setupCheck from '../src/utils/setup-check'
+import declarativeWriter from './declarative-writer'
+import webhookWriter from './webhook-writer'
 
 type AppConfig = {
   name?: string
@@ -104,9 +104,9 @@ try {
 
   // GDPR URL
   config.webhooks.privacy_compliance = {}
-  config.webhooks.privacy_compliance.customer_data_request_url = `${appUrl}/api/gdpr/customers_data_request`
-  config.webhooks.privacy_compliance.customer_deletion_url = `${appUrl}/api/gdpr/customers_redact`
-  config.webhooks.privacy_compliance.shop_deletion_url = `${appUrl}/api/gdpr/shop_redact`
+  config.webhooks.privacy_compliance.customer_data_request_url = `${appUrl}/api/gdpr/customers-data-request`
+  config.webhooks.privacy_compliance.customer_deletion_url = `${appUrl}/api/gdpr/customers-redact`
+  config.webhooks.privacy_compliance.shop_deletion_url = `${appUrl}/api/gdpr/shop-redact`
 
   // 应用代理
   if (

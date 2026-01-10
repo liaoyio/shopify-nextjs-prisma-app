@@ -100,7 +100,7 @@ const DebugIndex = () => {
                   <Button
                     variant="primary"
                     onClick={() => {
-                      router.push('/debug/resourcePicker')
+                      router.push('/debug/resource-picker')
                     }}
                   >
                     Explore

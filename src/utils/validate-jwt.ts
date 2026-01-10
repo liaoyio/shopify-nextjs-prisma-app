@@ -24,7 +24,6 @@ function validateJWT(
   const payload = parts[1]
   const signature = parts[2]
 
-  const headerJson = Buffer.from(header, 'base64').toString()
   const payloadJson = Buffer.from(payload, 'base64').toString()
 
   // 验证签名

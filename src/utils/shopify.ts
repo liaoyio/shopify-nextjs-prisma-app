@@ -1,12 +1,12 @@
 import type { ApiVersion, AuthScopes } from '@shopify/shopify-api'
 import { LogSeverity, shopifyApi } from '@shopify/shopify-api'
 import '@shopify/shopify-api/adapters/node'
-import appUninstallHandler from './webhooks/app_uninstalled'
+import appUninstallHandler from './webhooks/app-uninstalled'
 import type { ShopifyUserConfig } from '@/types/shopify'
 
 const isDev = process.env.NODE_ENV === 'development'
 
-// 设置 Shopify 配置
+/** Shopify 配置 */
 const baseShopify = shopifyApi({
   apiKey: process.env.SHOPIFY_API_KEY,
   apiSecretKey: process.env.SHOPIFY_API_SECRET!,
@@ -18,12 +18,12 @@ const baseShopify = shopifyApi({
   logger: { level: isDev ? LogSeverity.Info : LogSeverity.Error },
 })
 
-// 向基础 shopify 对象添加自定义用户属性
+/** 向基础 shopify 对象添加自定义用户属性 */
 const user: ShopifyUserConfig = {
   webhooks: [
     {
       topics: ['app/uninstalled'] as const,
-      url: '/api/webhooks/app_uninstalled',
+      url: '/api/webhooks/app-uninstalled',
       callback: appUninstallHandler,
     },
   ],
@@ -56,14 +56,16 @@ const user: ShopifyUserConfig = {
     // },
   ],
   metaobjects: [
-    // 支持即将推出。
+    // 支持即将推出
   ],
 }
 
-// 使用类型断言来扩展 shopify 对象，使其包含 user 属性
-const shopify = {
+/** 扩展 shopify 对象，使其包含 user 属性 */
+type Shopify = typeof baseShopify & { user: ShopifyUserConfig }
+
+const shopify: Shopify = {
   ...baseShopify,
   user,
-} as typeof baseShopify & { user: ShopifyUserConfig }
+}
 
 export default shopify

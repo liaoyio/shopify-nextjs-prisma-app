@@ -1,7 +1,7 @@
-import sessionHandler from '@/utils/sessionHandler'
+import sessionHandler from '@/utils/session-handler'
 import shopify from '@/utils/shopify'
 import { RequestedTokenType, Session } from '@shopify/shopify-api'
-import validateJWT from '../validateJWT'
+import validateJWT from '../validate-jwt'
 import type { Middleware } from 'next-api-middleware'
 
 const verifyRequest: Middleware = async (req, res, next) => {
